@@ -1,5 +1,5 @@
 
-const board = [
+let board = [
     1,2,3,
     4,5,6,
     7,8,9
@@ -9,23 +9,22 @@ const boards = document.querySelectorAll('.block');
 
 boards.forEach(element => {
     element.addEventListener('click',() => {
-        console.log('tick');
+        let game_input = element.id;
+        playerTurn(game_input);
     }
     )
 });
 
 
-const player_submit = document.getElementById('submit-btn');
-
-player_submit.addEventListener('click',(event) =>{
-    event.preventDefault();
-    let player_input = document.getElementById('player-input').value;
+let playerTurn = (input) => {
+    let player_input = input;
     let player_mark = 'X'
     
     if (checkAvailable(player_input,player_mark)){
         updateTable(player_input,player_mark);
         if (checkWin(board, player_mark)){
             alert('Player Win');
+            reset();
         } else{
             cpuTurn();
         }
@@ -33,7 +32,6 @@ player_submit.addEventListener('click',(event) =>{
         alert(`position ${player_input} is taken`);
     }
 }
-)
 
 const getRandomInt= (max) => {
     return Math.floor(Math.random() * max);
@@ -60,6 +58,9 @@ const checkAvailable = (input,mark) =>{
 }
 
 const updateTable = (input, mark) => {
+    let elementID = input.toString();
+    const change = document.getElementById(elementID);
+    change.innerHTML = mark;
     return board[input-1] = mark;
 }
 
@@ -82,5 +83,19 @@ const checkWin = (board, mark) => {
         return true;
     } else{
         return false;
+    }
+}
+
+const reset = ()=> {
+    board = [
+        1,2,3,
+        4,5,6,
+        7,8,9
+    ];
+
+    for (let id = 0; id < 10; id++){
+        let itemID = id.toString();
+        let changeID = document.getElementById(item);
+        changeID.innerHTML = elementID;
     }
 }

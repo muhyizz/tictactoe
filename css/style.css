@@ -1,0 +1,26 @@
+body{
+    box-sizing: border-box;
+}
+
+.main-container{
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+    
+    width: 100vw;
+    height: 100vh;
+}
+
+.container{
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    
+    grid: repeat(3,50px)/repeat(3,50px);
+    border: 1px red solid;
+}
+
+.block{
+    border: 1px red solid;
+}

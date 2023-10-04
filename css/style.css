@@ -1,5 +1,9 @@
 body{
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
 }
 
 .main-container{
@@ -8,24 +12,38 @@ body{
     
     align-items: center;
     justify-content: center;
-    gap: 10px;
     
     width: 90vw;
     height: 90vh;
 
-    border: 1px red solid;
+    background-color: grey;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 90%;
+    height: 5%;
+
+    background-color: white;
 }
 
 #name-form{
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5%;
 
     width: 90%;
-    height: 10%;
-    border: 1px red solid;
+    height: 5%;
+
+    background-color: white;
+}
+
+#name-form input, #name-form label{
+    font-size: 1rem;
 }
 
 .container{
@@ -34,15 +52,25 @@ body{
     align-self: center;
 
     width: 90%;
-    height: 90%;
+    height: 80%;
+    margin: 1rem 0;
     
     grid: repeat(3,minmax(20%, 80%))/repeat(3,minmax(20%, 80%));
-    border: 1px red solid;
+    /* border: 1px red solid; */
 }
 
 .block{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: aqua;
+    font-size: 2rem;
     border: 1px red solid;
+    border-radius: 10px;
+}
+
+@media (max-width: 425px){
+    #name-form input, #name-form label{
+        font-size: 0.5rem;
+    }
 }

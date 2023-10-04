@@ -5,31 +5,62 @@ let board = [
     7,8,9
 ];
 
+const nameForm = document.getElementById('name-form');
+
+nameForm.addEventListener('submit',(event)=> {
+    event.preventDefault();
+    let player_name = document.getElementById('name').value;
+    startGame(player_name)
+})
+
+const startGame = (player_name) => {
+    boards.forEach(element => {
+        element.addEventListener('click',() => {
+            let game_input = element.id;
+            playerTurn(game_input, player_name);
+        }
+        )
+    });
+}
+
 const boards = document.querySelectorAll('.block');
 
-boards.forEach(element => {
-    element.addEventListener('click',() => {
-        let game_input = element.id;
-        playerTurn(game_input);
-    }
-    )
-});
 
 
-let playerTurn = (input) => {
+const resetbtn = document.getElementById('reset-btn');
+
+resetbtn.addEventListener('click', ()=>{
+    resetGame();
+})
+
+//Game Logic
+
+
+let playerTurn = (input,name) => {
     let player_input = input;
     let player_mark = 'X'
-    
-    if (checkAvailable(player_input,player_mark)){
+    let player_name = name;
+    console.log(player_name);
+    if (checkAvailable(player_input)){
         updateTable(player_input,player_mark);
-        if (checkWin(board, player_mark)){
-            alert('Player Win');
-            reset();
-        } else{
-            cpuTurn();
-        }
+        setTimeout(()=>{
+            let result = checkWin(board, player_mark);
+        
+        
+            if (result === "win") {
+                
+                alert(`${player_name} wins!`);
+                resetGame();
+            } else if (result === "draw") {
+                alert('It\'s a draw!');
+                resetGame();
+            } else {
+                cpuTurn();
+            }
+        },50);
+        
     } else {
-        alert(`position ${player_input} is taken`);
+        alert(`Position ${player_input} is taken`);
     }
 }
 
@@ -38,7 +69,7 @@ const getRandomInt= (max) => {
   }
 
 const getComputerChoice =()=> {
-    return getRandomInt(9);
+    return getRandomInt(8) + 1;
 }
 
 let cpuTurn = () => {
@@ -47,13 +78,21 @@ let cpuTurn = () => {
     while(!checkAvailable(choice)){
         choice = getComputerChoice()
     }
+
     updateTable(choice,computer_mark);
-    if (checkWin(board,'O')){
-        console.log('CPU win');
-    }   
+    let result = checkWin(board, computer_mark);
+
+        if (result === "win") {
+            console.log(result);
+            alert('CPU wins!');
+            resetGame();
+        } else if (result === "draw") {
+            alert('It\'s a draw!');
+            resetGame();
+        }
 }
 
-const checkAvailable = (input,mark) =>{
+const checkAvailable = (input) =>{
     return board[input-1] !== 'X' && board[input-1] !== 'O';
 }
 
@@ -65,37 +104,40 @@ const updateTable = (input, mark) => {
 }
 
 const checkWin = (board, mark) => {
+
+    if (board.every(cell => cell === 'X'|| cell==='O')){
+        return "draw";
+    }
+
     if (board[0] == mark && board[1] == mark && board[2] == mark){
-        return true;
+        return "win";
     } else if (board[3] == mark && board[4] == mark && board[5] == mark){
-        return true;
+        return "win";
     } else if (board[6] == mark && board[7] == mark && board[8] == mark){
-        return true;
+        return "win";
     } else if (board[0] == mark && board[3] == mark && board[6] == mark){
-        return true;
+        return "win";
     } else if (board[1] == mark && board[4] == mark && board[7] == mark){
-        return true;
+        return "win";
     } else if (board[2] == mark && board[5] == mark && board[8] == mark){
-        return true;
+        return "win";
     } else if (board[0] == mark && board[4] == mark && board[8] == mark){
-        return true;
+        return "win";
     } else if (board[2] == mark && board[4] == mark && board[6] == mark){
-        return true;
-    } else{
-        return false;
+        return "win";
     }
 }
 
-const reset = ()=> {
+const resetGame = ()=> {
     board = [
         1,2,3,
         4,5,6,
         7,8,9
     ];
 
-    for (let id = 0; id < 10; id++){
+    for (let id = 1; id < 10; id++){
         let itemID = id.toString();
-        let changeID = document.getElementById(item);
-        changeID.innerHTML = elementID;
+        let changeID = document.getElementById(itemID);
+        changeID.innerHTML = " ";
     }
 }
